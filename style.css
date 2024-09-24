@@ -90,21 +90,75 @@ body {
 
 header {
   display: flex;
+  background-color: inherit;
   justify-content: start;
   align-items: center;
   padding: 1rem;
+  width: 100%;
+  position: sticky;
+  top: 0;
 
   & h1 {
     font-size: 2.5rem;
   }
 }
 
+.container {
+  display: flex;
+}
+
+aside {
+  width: 30rem;
+  border: 1px solid indianred;
+  min-height: 100vh;
+  padding: 0 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.form__section {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 1rem;
+}
+
+.form__submit {
+  padding: 0.5rem 1rem;
+  margin: 1.5rem 1rem;
+  background-color: dodgerblue;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.form__submit:hover {
+  transform: scale(1.02);
+  transition: 0.2s;
+  background-color: hsl(228, 78%, 54%);
+}
+
 main {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: start;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 0 2rem;
 }
 
 .card__container {

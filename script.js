@@ -28,38 +28,47 @@ const books = [
   },
 ];
 
-// Card HTML
-function cardHTML(book, index) {
-  const bookEmojis = ['📕', '📗', '📘', '📙'];
-
-  function getBookEmoji() {
-    console.log('getting book emojis');
-    const randomIndex = Math.floor(Math.random() * bookEmojis.length);
-    return bookEmojis[randomIndex];
-  }
-
-  return `
-    <div class="card" data-index="${index}">
-        <div class="text__container">
-            <h2>${getBookEmoji()} ${book.title}</h2>
-            <h3>${book.author}</h3>
-        </div>
-        <div class="button__container">
-            <div class="checkbox__container">
-                <input id="read-${index}" type="checkbox" class="button read"></input>
-                <label for="read-${index}">Read?</label>
-            </div>
-            <button class="button delete"><i class="fa-solid fa-trash"></i></button>
-        </div>
-    </div>
-    `;
-}
-
 // Constructor
 function Book(title, author, read = false) {
   this.title = title;
   this.author = author;
   this.read = read;
+}
+
+const titleInput = document.getElementById('title');
+const authorInput = document.getElementById('author');
+const addButton = document.querySelector('.form__submit');
+addButton.addEventListener('click', handleAddBookClick);
+
+function handleAddBookClick(e) {
+  e.preventDefault();
+  addBookToLibrary(titleInput.value, authorInput.value);
+}
+
+// Card HTML
+function cardHTML(book, index) {
+  const bookEmojis = ['📕', '📗', '📘', '📙'];
+
+  function getBookEmoji() {
+    const randomIndex = Math.floor(Math.random() * bookEmojis.length);
+    return bookEmojis[randomIndex];
+  }
+
+  return `
+      <div class="card" data-index="${index}">
+          <div class="text__container">
+              <h2>${getBookEmoji()} ${book.title}</h2>
+              <h3>${book.author}</h3>
+          </div>
+          <div class="button__container">
+              <div class="checkbox__container">
+                  <input id="read-${index}" type="checkbox" class="button read"></input>
+                  <label for="read-${index}">Read?</label>
+              </div>
+              <button class="button delete"><i class="fa-solid fa-trash"></i></button>
+          </div>
+      </div>
+      `;
 }
 
 // Seeds library with current books
@@ -72,7 +81,6 @@ function addCurrentBooksToLibrary(books) {
 function addBookToLibrary(title, author, read) {
   const newBook = new Book(title, author, read);
   myLibrary.push(newBook);
-  console.log(`New book added: ${newBook.title}`);
   displayBooks(myLibrary);
 }
 
@@ -87,7 +95,6 @@ function displayBooks(library) {
   function toggleReadStatus(event) {
     const card = event.target.closest('.card');
     const index = card.getAttribute('data-index');
-    console.log(card, index);
     card.classList.toggle('read');
     myLibrary[index].read === true
       ? (myLibrary[index].read = false)
