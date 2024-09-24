@@ -35,9 +35,9 @@ const books = [
 ];
 
 // Card HTML
-function cardHTML(book) {
+function cardHTML(book, index) {
   return `
-    <div class="card">
+    <div class="card" data-index="${index}">
         <div class="text__container">
             <h2>${book.title}</h2>
             <h3>${book.author}</h3>
@@ -69,14 +69,31 @@ function addBookToLibrary(title, author, read) {
   const newBook = new Book(title, author, read);
   myLibrary.push(newBook);
   console.log(`New book added: ${newBook.title}`);
+  displayBooks(myLibrary);
 }
 
 function displayBooks(library) {
   const cardContainer = document.querySelector('.card__container');
-  library.forEach((book) => {
-    newCard = cardHTML(book);
+  cardContainer.innerHTML = '';
+  library.forEach((book, index) => {
+    const newCard = cardHTML(book, index);
     cardContainer.innerHTML += newCard;
   });
+
+  // Add event listeners for delete buttons after cards are displayed
+  document.querySelectorAll('.delete').forEach((button) => {
+    button.addEventListener('click', deleteBook);
+  });
+}
+
+function deleteBook(event) {
+  const card = event.target.closest('.card');
+  const index = card.getAttribute('data-index');
+  const deleteConfirmed = confirm('Delete book?');
+  if (deleteConfirmed) {
+    myLibrary.splice(index, 1);
+    displayBooks(myLibrary);
+  }
 }
 
 // Create new book button to bring up a form
