@@ -90,9 +90,10 @@ body {
 
 header {
   display: flex;
+  flex-direction: column;
   background-color: inherit;
-  justify-content: start;
-  align-items: center;
+  justify-content: center;
+  align-items: start;
   padding: 1rem;
   width: 100%;
   position: sticky;
@@ -101,6 +102,26 @@ header {
   & h1 {
     font-size: 2.5rem;
   }
+}
+
+.header__add__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header__add__container button {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .container {
@@ -115,7 +136,7 @@ aside {
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 form {
