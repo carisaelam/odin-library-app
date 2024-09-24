@@ -41,14 +41,32 @@ function cardHTML(book, index) {
         <div class="text__container">
             <h2>${book.title}</h2>
             <h3>${book.author}</h3>
-            <p>${book.read}</p>
         </div>
         <div class="button__container">
-            <button class="button delete">delete</button>
-            <button class="button read">read?</button>
+            <div class="checkbox__container">
+                <input id="read-${index}" type="checkbox" class="button read"></input>
+                <label for="read-${index}">Read?</label>
+            </div>
+            <button class="button delete"><i class="fa-solid fa-trash"></i></button>
         </div>
     </div>
     `;
+}
+
+function toggleReadStatus(event) {
+  const card = event.target.closest('.card');
+  console.log(card);
+  card.classList.toggle('read');
+}
+
+function deleteBook(event) {
+  const card = event.target.closest('.card');
+  const index = card.getAttribute('data-index');
+  const deleteConfirmed = confirm('Delete book?');
+  if (deleteConfirmed) {
+    myLibrary.splice(index, 1);
+    displayBooks(myLibrary);
+  }
 }
 
 // Constructor
@@ -80,9 +98,12 @@ function displayBooks(library) {
     cardContainer.innerHTML += newCard;
   });
 
-  // Add event listeners for delete buttons after cards are displayed
   document.querySelectorAll('.delete').forEach((button) => {
     button.addEventListener('click', deleteBook);
+  });
+
+  document.querySelectorAll('.read').forEach((checkbox) => {
+    checkbox.addEventListener('click', toggleReadStatus);
   });
 }
 

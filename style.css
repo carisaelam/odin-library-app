@@ -135,7 +135,7 @@ main {
 
 .button__container {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   gap: 0.5rem;
 }
 
@@ -149,14 +149,34 @@ main {
 
 .button:hover {
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.1);
   transition: 0.2s;
 }
 
 .button.delete {
-  background-color: dodgerblue;
+  background-color: transparent;
 }
 
-.button.read {
+.button.delete i {
+  color: grey;
+}
+
+.checkbox__container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.read {
   background-color: green;
+  color: white;
+}
+
+input[type='checkbox'] {
+  width: 2rem;
+  height: 2rem;
+  color: rebeccapurple;
 }
