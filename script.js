@@ -5,32 +5,26 @@ const books = [
   {
     title: 'Mrs. Dalloway',
     author: 'Virginia Woolf',
-    read: true,
   },
   {
     title: 'To Kill a Mockingbird',
     author: 'Harper Lee',
-    read: true,
   },
   {
     title: '1984',
     author: 'George Orwell',
-    read: true,
   },
   {
     title: 'Pride and Prejudice',
     author: 'Jane Austen',
-    read: false,
   },
   {
     title: 'The Great Gatsby',
     author: 'F. Scott Fitzgerald',
-    read: true,
   },
   {
     title: 'Moby-Dick',
     author: 'Herman Melville',
-    read: false,
   },
 ];
 
@@ -53,24 +47,8 @@ function cardHTML(book, index) {
     `;
 }
 
-function toggleReadStatus(event) {
-  const card = event.target.closest('.card');
-  console.log(card);
-  card.classList.toggle('read');
-}
-
-function deleteBook(event) {
-  const card = event.target.closest('.card');
-  const index = card.getAttribute('data-index');
-  const deleteConfirmed = confirm('Delete book?');
-  if (deleteConfirmed) {
-    myLibrary.splice(index, 1);
-    displayBooks(myLibrary);
-  }
-}
-
 // Constructor
-function Book(title, author, read) {
+function Book(title, author, read = false) {
   this.title = title;
   this.author = author;
   this.read = read;
@@ -97,6 +75,26 @@ function displayBooks(library) {
     const newCard = cardHTML(book, index);
     cardContainer.innerHTML += newCard;
   });
+
+  function toggleReadStatus(event) {
+    const card = event.target.closest('.card');
+    const index = card.getAttribute('data-index');
+    console.log(card, index);
+    card.classList.toggle('read');
+    myLibrary[index].read === true
+      ? (myLibrary[index].read = false)
+      : (myLibrary[index].read = true);
+  }
+
+  function deleteBook(event) {
+    const card = event.target.closest('.card');
+    const index = card.getAttribute('data-index');
+    const deleteConfirmed = confirm('Delete book?');
+    if (deleteConfirmed) {
+      myLibrary.splice(index, 1);
+      displayBooks(myLibrary);
+    }
+  }
 
   document.querySelectorAll('.delete').forEach((button) => {
     button.addEventListener('click', deleteBook);
