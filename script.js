@@ -30,10 +30,18 @@ const books = [
 
 // Card HTML
 function cardHTML(book, index) {
+  const bookEmojis = ['📕', '📗', '📘', '📙'];
+
+  function getBookEmoji() {
+    console.log('getting book emojis');
+    const randomIndex = Math.floor(Math.random() * bookEmojis.length);
+    return bookEmojis[randomIndex];
+  }
+
   return `
     <div class="card" data-index="${index}">
         <div class="text__container">
-            <h2>${book.title}</h2>
+            <h2>${getBookEmoji()} ${book.title}</h2>
             <h3>${book.author}</h3>
         </div>
         <div class="button__container">
