@@ -35,14 +35,23 @@ function Book(title, author, read = false) {
   this.read = read;
 }
 
+const sidebar = document.querySelector('.sidebar');
+const addBookButton = document.querySelector('.addBookButton');
 const titleInput = document.getElementById('title');
 const authorInput = document.getElementById('author');
 const addButton = document.querySelector('.form__submit');
 addButton.addEventListener('click', handleAddBookClick);
+addBookButton.addEventListener('click', handleAddBookButtonClick);
+
+function handleAddBookButtonClick(e) {
+  e.preventDefault();
+  sidebar.classList.toggle('hidden');
+}
 
 function handleAddBookClick(e) {
   e.preventDefault();
   addBookToLibrary(titleInput.value, authorInput.value);
+  sidebar.classList.toggle('hidden');
 }
 
 // Card HTML
@@ -130,9 +139,5 @@ function deleteBook(event) {
   }
 }
 
-// Create new book button to bring up a form
-
-// Add buttons on each book card to remove book and change read status
-
 addCurrentBooksToLibrary(books);
-displayBooks(myLibrary);
+// displayBooks(myLibrary);

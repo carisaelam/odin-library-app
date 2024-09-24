@@ -114,6 +114,10 @@ aside {
   padding: 0 1rem;
 }
 
+.hidden {
+    display: none;
+}
+
 form {
   display: flex;
   flex-direction: column;
