@@ -1,3 +1,4 @@
+// DATA
 const myLibrary = [];
 
 // Seed data
@@ -28,21 +29,26 @@ const books = [
   },
 ];
 
-// Constructor
+// CONSTRUCTOR
 function Book(title, author, read = false) {
   this.title = title;
   this.author = author;
   this.read = read;
 }
 
+// DOM ELEMENTS
 const sidebar = document.querySelector('.sidebar');
 const addBookButton = document.querySelector('.addBookButton');
 const titleInput = document.getElementById('title');
 const authorInput = document.getElementById('author');
 const addButton = document.querySelector('.form__submit');
+const cardContainer = document.querySelector('.card__container');
+
+// EVENT LISTENERS
 addButton.addEventListener('click', handleAddBookClick);
 addBookButton.addEventListener('click', handleAddBookButtonClick);
 
+// EVENT HANDLERS
 function handleAddBookButtonClick(e) {
   e.preventDefault();
   sidebar.classList.toggle('hidden');
@@ -52,23 +58,25 @@ function handleAddBookClick(e) {
   e.preventDefault();
   addBookToLibrary(titleInput.value, authorInput.value);
   sidebar.classList.toggle('hidden');
+  resetForm();
+}
+
+function resetForm() {
   titleInput.value = '';
   authorInput.value = '';
 }
 
-// Card HTML
+// FUNCTIONS
+
+// Generate card HTML
 function cardHTML(book, index) {
   const bookEmojis = ['📕', '📗', '📘', '📙'];
-
-  function getBookEmoji() {
-    const randomIndex = Math.floor(Math.random() * bookEmojis.length);
-    return bookEmojis[randomIndex];
-  }
+  const randomEmoji = bookEmojis[Math.floor(Math.random() * bookEmojis.length)];
 
   return `
       <div class="card" data-index="${index}">
           <div class="text__container">
-              <h3>${getBookEmoji()} ${book.title}</h3>
+              <h3>${randomEmoji} ${book.title}</h3>
               <h4>${book.author}</h4>
           </div>
           <div class="button__container">
@@ -89,39 +97,25 @@ function addCurrentBooksToLibrary(books) {
   });
 }
 
+// Add one new book to library
 function addBookToLibrary(title, author, read) {
   const newBook = new Book(title, author, read);
   myLibrary.push(newBook);
   displayBooks(myLibrary);
 }
 
+// Display books in the DOM
 function displayBooks(library) {
-  const cardContainer = document.querySelector('.card__container');
   cardContainer.innerHTML = '';
   library.forEach((book, index) => {
-    const newCard = cardHTML(book, index);
-    cardContainer.innerHTML += newCard;
+    cardContainer.innerHTML += cardHTML(book, index);
   });
 
-  function toggleReadStatus(event) {
-    const card = event.target.closest('.card');
-    const index = card.getAttribute('data-index');
-    card.classList.toggle('read');
-    myLibrary[index].read === true
-      ? (myLibrary[index].read = false)
-      : (myLibrary[index].read = true);
-  }
+  setupEventListeners();
+}
 
-  function deleteBook(event) {
-    const card = event.target.closest('.card');
-    const index = card.getAttribute('data-index');
-    const deleteConfirmed = confirm('Delete book?');
-    if (deleteConfirmed) {
-      myLibrary.splice(index, 1);
-      displayBooks(myLibrary);
-    }
-  }
-
+// Set up delete and read event listeners
+function setupEventListeners() {
   document.querySelectorAll('.delete').forEach((button) => {
     button.addEventListener('click', deleteBook);
   });
@@ -131,6 +125,17 @@ function displayBooks(library) {
   });
 }
 
+// Toggle read status of one book
+function toggleReadStatus(event) {
+  const card = event.target.closest('.card');
+  const index = card.getAttribute('data-index');
+  card.classList.toggle('read');
+  myLibrary[index].read === true
+    ? (myLibrary[index].read = false)
+    : (myLibrary[index].read = true);
+}
+
+// Delete one book from library
 function deleteBook(event) {
   const card = event.target.closest('.card');
   const index = card.getAttribute('data-index');
@@ -142,4 +147,3 @@ function deleteBook(event) {
 }
 
 addCurrentBooksToLibrary(books);
-// displayBooks(myLibrary);
