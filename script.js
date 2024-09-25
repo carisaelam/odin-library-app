@@ -52,6 +52,8 @@ function handleAddBookClick(e) {
   e.preventDefault();
   addBookToLibrary(titleInput.value, authorInput.value);
   sidebar.classList.toggle('hidden');
+  titleInput.value = '';
+  authorInput.value = '';
 }
 
 // Card HTML
@@ -66,8 +68,8 @@ function cardHTML(book, index) {
   return `
       <div class="card" data-index="${index}">
           <div class="text__container">
-              <h2>${getBookEmoji()} ${book.title}</h2>
-              <h3>${book.author}</h3>
+              <h3>${getBookEmoji()} ${book.title}</h3>
+              <h4>${book.author}</h4>
           </div>
           <div class="button__container">
               <div class="checkbox__container">
