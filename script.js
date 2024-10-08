@@ -1,6 +1,3 @@
-// DATA
-const myLibrary = [];
-
 // Seed data
 const books = [
   {
@@ -29,11 +26,66 @@ const books = [
   },
 ];
 
-// CONSTRUCTOR
-function Book(title, author, read = false) {
-  this.title = title;
-  this.author = author;
-  this.read = read;
+// CLASS
+class Book {
+  constructor(title, author, read = false) {
+    this.title = title;
+    this.author = author;
+    this.read = read;
+  }
+}
+
+class Library {
+  constructor(books) {
+    this.books = books;
+  }
+
+  // Set up delete and read event listeners
+  _setupEventListeners() {
+    document.querySelectorAll('.delete').forEach((button) => {
+      button.addEventListener('click', (e) => {
+        this._deleteBook(e);
+      });
+    });
+
+    document.querySelectorAll('.read').forEach((checkbox) => {
+      checkbox.addEventListener('click', (e) => {
+        this._toggleReadStatus(e);
+      });
+    });
+  }
+
+  addBookToLibrary(book) {
+    this.books.push(book);
+    this.displayBooks();
+  }
+
+  displayBooks() {
+    cardContainer.innerHTML = '';
+    this.books.forEach((book, index) => {
+      cardContainer.innerHTML += cardHTML(book, index);
+    });
+
+    this._setupEventListeners();
+  }
+
+  _toggleReadStatus(event) {
+    const card = event.target.closest('.card');
+    const index = card.getAttribute('data-index');
+    card.classList.toggle('read');
+    this.books[index].read = !this.books[index].read;
+  }
+
+  // Delete one book from library
+  _deleteBook(event) {
+    const card = event.target.closest('.card');
+    const index = card.getAttribute('data-index');
+    const deleteConfirmed = confirm('Delete book?');
+    if (deleteConfirmed) {
+      this.books.splice(index, 1);
+      this.displayBooks();
+    }
+  }
 }
 
 // DOM ELEMENTS
@@ -56,7 +108,8 @@ function handleAddBookButtonClick(e) {
 
 function handleAddBookClick(e) {
   e.preventDefault();
-  addBookToLibrary(titleInput.value, authorInput.value);
+  const newBook = new Book(titleInput.value, authorInput.value);
+  myLibrary.addBookToLibrary(newBook);
   sidebar.classList.toggle('hidden');
   resetForm();
 }
@@ -65,8 +118,6 @@ function resetForm() {
   titleInput.value = '';
   authorInput.value = '';
 }
-
-// FUNCTIONS
 
 // Generate card HTML
 function cardHTML(book, index) {
@@ -90,60 +141,5 @@ function cardHTML(book, index) {
       `;
 }
 
-// Seeds library with current books
-function addCurrentBooksToLibrary(books) {
-  books.forEach((book) => {
-    addBookToLibrary(book.title, book.author, book.read);
-  });
-}
-
-// Add one new book to library
-function addBookToLibrary(title, author, read) {
-  const newBook = new Book(title, author, read);
-  myLibrary.push(newBook);
-  displayBooks(myLibrary);
-}
-
-// Display books in the DOM
-function displayBooks(library) {
-  cardContainer.innerHTML = '';
-  library.forEach((book, index) => {
-    cardContainer.innerHTML += cardHTML(book, index);
-  });
-
-  setupEventListeners();
-}
-
-// Set up delete and read event listeners
-function setupEventListeners() {
-  document.querySelectorAll('.delete').forEach((button) => {
-    button.addEventListener('click', deleteBook);
-  });
-
-  document.querySelectorAll('.read').forEach((checkbox) => {
-    checkbox.addEventListener('click', toggleReadStatus);
-  });
-}
-
-// Toggle read status of one book
-function toggleReadStatus(event) {
-  const card = event.target.closest('.card');
-  const index = card.getAttribute('data-index');
-  card.classList.toggle('read');
-  myLibrary[index].read === true
-    ? (myLibrary[index].read = false)
-    : (myLibrary[index].read = true);
-}
-
-// Delete one book from library
-function deleteBook(event) {
-  const card = event.target.closest('.card');
-  const index = card.getAttribute('data-index');
-  const deleteConfirmed = confirm('Delete book?');
-  if (deleteConfirmed) {
-    myLibrary.splice(index, 1);
-    displayBooks(myLibrary);
-  }
-}
-
-addCurrentBooksToLibrary(books);
+const myLibrary = new Library(books);
+myLibrary.displayBooks();
