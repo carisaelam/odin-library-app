@@ -17,6 +17,7 @@ Visit the live site here: https://carisaelam-library-app.netlify.app/
 OR
 
 1. Clone the repository to your local machine.
+
    ```bash
    git clone https://github.com/carisaelam/odin-library-app.git
    ```
@@ -31,9 +32,11 @@ OR
 
 ## Code Structure
 
-- **`Book` constructor**: Creates a book object with `title`, `author`, and `read` status.
-- **Event Listeners**: Handles user interactions like adding books, toggling the sidebar, and deleting books.
-- **HTML Template**: Dynamically generates book cards and inserts them into the DOM.
+- **`Book` class**: Represents a book object with `title`, `author`, and `read` status.
+- **`Library` class**: Manages the collection of books and handles user interactions.
+  - **Event Listeners**: Set up for adding books, toggling the read status, and deleting books.
+  - **Display Method**: Dynamically generates book cards and updates the DOM.
+- **HTML Template**: Used to create book cards that show the title, author, and read status.
 - **Seed Data**: Pre-populated with classic books for testing the application.
 
 ## Technologies Used
