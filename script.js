@@ -106,8 +106,42 @@ function handleAddBookButtonClick(e) {
   sidebar.classList.toggle('hidden');
 }
 
+function validateTitle() {
+  authorInput.setCustomValidity('');
+
+  if (!titleInput.validity.valid) {
+    titleInput.setCustomValidity('Gotta have a title');
+  } else {
+    titleInput.setCustomValidity('');
+  }
+}
+
+function validateAuthor() {
+  authorInput.setCustomValidity('');
+
+  if (!authorInput.validity.valid) {
+    authorInput.setCustomValidity('Gotta have a author');
+  } else {
+    authorInput.setCustomValidity('');
+  }
+}
+
 function handleAddBookClick(e) {
   e.preventDefault();
+
+  // Validate title
+  validateTitle();
+  validateAuthor();
+
+  // Report validation errors
+
+  if (!titleInput.checkValidity() || !authorInput.checkValidity()) {
+    titleInput.reportValidity();
+    authorInput.reportValidity();
+    return;
+  }
+
+  // If everything validates
   const newBook = new Book(titleInput.value, authorInput.value);
   myLibrary.addBookToLibrary(newBook);
   sidebar.classList.toggle('hidden');
